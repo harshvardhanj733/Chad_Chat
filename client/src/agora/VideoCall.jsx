@@ -49,6 +49,7 @@ export default function VideoCall(props) {
 
       try {
         await client.join(config.appId, name, config.token, null);
+        alert(config.name);
       } catch (error) {
         console.log(config.appId);
 
