@@ -16,7 +16,7 @@ function App() {
   const [name, setName] = useState("");
   // Room State
   const [room, setRoom] = useState("");
-
+  const [joined, setJoined] = useState(false);
   // Messages States
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -27,6 +27,7 @@ function App() {
 
   const joinRoom = () => {
     if (room !== "" && name != "") {
+      setJoined(true);
       socket.emit("join_room", { room, name });
       alert(
         `Your Name is: ${name} ~ ${myId.substring(
@@ -156,11 +157,12 @@ function App() {
     <div className="flex w-screen flex-col md:flex-row">
       <Messaging
         participants={participants}
-        // name={name}
-        // room={room}
+        name={name}
+        room={room}
         // message={message}
         messages={messages}
         // myId={myId}
+        joined={joined}
         joinRoom={joinRoom}
         handleDeletion={handleDeletion}
         sendMessage={sendMessage}
@@ -172,14 +174,13 @@ function App() {
         setMessage={setMessage}
         middleMessageContainerRef={middleMessageContainerRef}
       />{" "}
-      <div className="h-screen w-full md:w-2/3 ">
-        {" "}
+      <div
+        className={`h-screen ${!joined ? "hidden" : "block"} w-full md:w-2/3 `}
+      >
         <div className="h-1/2 w-full ">
           <Canvas />
-          {/* <Board /> */}
         </div>
-        <div className="h-1/2 bg-gradient-to-r from-purple-400 to-purple-900">
-          {" "}
+        <div className={`h-1/2 bg-gradient-to-r from-purple-400 to-purple-900`}>
           <VideoApp />
         </div>
       </div>
