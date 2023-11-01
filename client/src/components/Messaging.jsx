@@ -4,7 +4,7 @@ import {
   FaTelegramPlane,
   FaWindowClose,
 } from "react-icons/fa";
-
+import heroImg from "../hero-imgg.png";
 function Messaging({
   participants,
   name,
@@ -29,18 +29,18 @@ function Messaging({
   return (
     <>
       <div
-        className={`flex flex-col overflow-x-hidden justify-start w-screen ${
+        className={`flex flex-col overflow-x-hidden justify-start ${
           !joined ? "lg:w-full" : "lg:w-1/3"
         }  items-center h-screen`}
       >
         <div
           id="HeadRoomElement"
-          className={`flex justify-around ${
+          className={`flex justify-start ${
             joined ? "hidden" : "block"
-          } w-full gap-0 items-center h-[10vh] bg-purple-900`}
+          } w-full gap-0 items-center h-[15vh] bg-purple-900 px-2`}
         >
           {" "}
-          <p className="font-bold text-white text-xl">pH</p>
+          <p className="font-bold text-white text-xl mr-10 md:mr-96">pH</p>
           <div className="">
             {" "}
             <input
@@ -52,7 +52,7 @@ function Messaging({
               onKeyDown={handleEnterRoom}
             />
             <input
-              className="p-2 outline-none w-24 mx-4"
+              className="p-2 outline-none w-24 mx-2"
               placeholder="Room No."
               onChange={(event) => {
                 setRoom(event.target.value);
@@ -88,11 +88,35 @@ function Messaging({
           </button>
         </div>
         <div
-          className={`w-full h-full bg-purple-200 border-8 border-white flex justify-center ${
+          className={`w-full h-[90vh] bg-purple-50 border-8 border-white flex flex-col sm:flex-row justify-center ${
             joined ? "hidden" : "block"
-          } items-center px-12 text-2xl sm:px-24 text-purple-900 sm:text-4xl font-mono`}
+          } items-center pt-10 sm:pt-0 text-2xl  text-purple-900  font-mono text-center`}
         >
-          Join the room to unlock a world full of fun !
+          <div className="sm:w-1/2 text-4xl sm:px-4">
+            <div>
+              Welcome to <strong>P</strong>ictionary<strong>H</strong>angout{" "}
+              <br />
+              {/* <p className="text-sm">
+                Join a room to unlock a world full of fun..
+              </p> */}
+            </div>
+            <p className="text-sm mt-10">
+              {" "}
+              This is whimsical wonderland where art meets chatter and video
+              calls get a twist! Ever wanted to chat, scribble, and connect with
+              random friends? Get ready to unleash your creativity and chat up a
+              storm while drawing your next masterpiece. Let's paint, prank, and
+              have a blast together! Get set for a doodling adventure that'll
+              make your imagination smile. Buckle up and let's get scribbling!
+            </p>
+          </div>
+          <div className="sm:w-1/2 h-full ">
+            <img
+              src={heroImg}
+              alt="someText"
+              className="mx-auto h-96 sm:h-5/6 sm:mt-10 hover:scale-125 transition-transform 0.2s"
+            />
+          </div>
         </div>
         <div
           className={`w-full overflow-x-auto ${
