@@ -11,6 +11,7 @@ const socket = io.connect("http://localhost:3001");
 function App() {
   //All Users State In a Room
   const [participants, setParticipants] = useState([]);
+  const [partiMap, setPartiMap] = useState(new Map());
 
   //Name State
   const [name, setName] = useState("");
