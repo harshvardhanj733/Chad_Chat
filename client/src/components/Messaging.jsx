@@ -6,25 +6,22 @@ import {
 } from "react-icons/fa";
 import heroImg from "../hero-imgg.png";
 function Messaging({
-  participants,
+  partiMap,
   name,
   room,
-  // message,
   messages,
-  // myId,
   joined,
   joinRoom,
   handleDeletion,
   sendMessage,
-  // scrollToBottom,
   handleEnter,
   handleEnterRoom,
   setName,
   setRoom,
   setMessage,
   middleMessageContainerRef,
-}) {
-  // const middleMessageContainerRef = useRef();
+}) 
+{
 
   return (
     <>
@@ -77,10 +74,6 @@ function Messaging({
           Hey {name}, welcome to Room {room} !
           <button
             className="text-3xl text-white rounded-md hover:text-red-500 pr-3"
-            // onClick={() => {
-            //   window.location.reload();
-            // }}
-
             onClick={handleDeletion}
           >
             {" "}
@@ -96,9 +89,6 @@ function Messaging({
             <div>
               Welcome to <strong>P</strong>ictionary<strong>H</strong>angout{" "}
               <br />
-              {/* <p className="text-sm">
-                Join a room to unlock a world full of fun..
-              </p> */}
             </div>
             <p className="text-sm mt-10">
               {" "}
@@ -123,7 +113,7 @@ function Messaging({
             !joined ? "hidden" : "block"
           } bg-purple-300 h-[8vh] text-purple-950 pt-2 flex`}
         >
-          {participants.map((participant) => {
+          {partiMap[room] && partiMap[room].map((participant) => {
             return <p>{participant.name},&nbsp;</p>;
           })}
         </div>

@@ -10,8 +10,7 @@ const socket = io.connect("http://localhost:3001");
 
 function App() {
   //All Users State In a Room
-  const [participants, setParticipants] = useState([]);
-  const [partiMap, setPartiMap] = useState(new Map());
+  const [partiMap, setPartiMap] = useState({});
 
   //Name State
   const [name, setName] = useState("");
@@ -24,6 +23,7 @@ function App() {
 
   // Messenger State
   const [myId, setMyId] = useState("");
+
   const middleMessageContainerRef = useRef();
 
   const joinRoom = () => {
@@ -41,7 +41,7 @@ function App() {
 
   const handleDeletion = () => {
     console.log("Delete Button Clicked");
-    socket.emit("wannaDisconnect", { room, name });
+    socket.emit("wannaDisconnect");
     window.location.reload();
   };
 
@@ -62,10 +62,9 @@ function App() {
 
     let messageDeet = {
       message,
-      // messengerId: myId,
       name: `${name} ~ ${myId.substring(0, 3)}`,
       messageTime: formattedTime,
-      sent: true, //You can change this... and line number 59
+      sent: true,
     };
     setMessages((existingMessages) => {
       const updatedMessages = [...existingMessages, messageDeet];
@@ -77,9 +76,8 @@ function App() {
       room,
     };
 
-    socket.emit("send_message", sendMessage);
-
     setMessage("");
+    socket.emit("send_message", sendMessage);
   };
 
   useEffect(() => {
@@ -119,8 +117,8 @@ function App() {
       alert(`New User Joined: ${name} ~ ${id.substring(0, 3)}`);
     });
 
-    socket.on("participantList", (participantList) => {
-      setParticipants(participantList);
+    socket.on("participantMap", (participantMap) => {
+      setPartiMap(participantMap);
     });
 
     socket.on("disconnectJoinee", (disconnectObj) => {
@@ -129,7 +127,7 @@ function App() {
           disconnectObj.name
         } ~ ${disconnectObj.id.substring(0, 3)}`
       );
-      setParticipants(disconnectObj.participantList);
+      setPartiMap(disconnectObj.participantMap);
     });
   }, [socket]);
   useEffect(() => {
@@ -157,17 +155,14 @@ function App() {
   return (
     <div className="flex w-screen flex-col md:flex-row">
       <Messaging
-        participants={participants}
+        partiMap={partiMap}
         name={name}
         room={room}
-        // message={message}
         messages={messages}
-        // myId={myId}
         joined={joined}
         joinRoom={joinRoom}
         handleDeletion={handleDeletion}
         sendMessage={sendMessage}
-        // scrollToBottom={scrollToBottom}
         handleEnter={handleEnter}
         handleEnterRoom={handleEnterRoom}
         setName={setName}

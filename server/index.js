@@ -15,7 +15,7 @@ const io = new Server(server, {
   },
 });
 
-let participantList = [];
+let participantMap = {};
 
 io.on("connection", (socket) => {
   socket.emit("getId", socket.id);
@@ -28,23 +28,28 @@ io.on("connection", (socket) => {
       name,
       id: socket.id,
     });
-    participantList.push({
+    if (participantMap[room] === undefined) {
+      participantMap[room] = [];
+    }
+    participantMap[room].push({
       name,
       id: socket.id,
     });
-    io.to(room).emit("participantList", participantList);
+    io.to(room).emit("participantMap", participantMap);
   });
 
-  socket.on("wannaDisconnect", ({ room, name }) => {
-    let tempArr = participantList;
-    participantList = [];
+  socket.on("wannaDisconnect", () => {
+    const room = socket.room;
+    const name = socket.name;
+    let tempArr = participantMap[room];
+    participantMap[room] = [];
     for (let i = 0; i < tempArr.length; i++) {
       if (tempArr[i].id !== socket.id) {
-        participantList.push(tempArr[i]);
+        participantMap[room].push(tempArr[i]);
       }
     }
     let disconnectObj = {
-      participantList,
+      participantMap,
       id: socket.id,
       name,
     };
@@ -54,25 +59,24 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     // Handle disconnection similar to 'wannaDisconnect' logic
-    let room = socket.room;
-    let tempArr = participantList.filter(
-      (participant) => participant.id !== socket.id
-    );
-    let disconnectObj = {
-      participantList: tempArr,
-      id: socket.id,
-      name: socket.name, // Assuming you have stored the name in the socket object
-    };
+    const room = socket.room;
+    const name = socket.name;
+    if (room !== undefined) {
+      let tempArr = participantMap[room].filter(
+        (participant) => participant.id !== socket.id
+      );
+      participantMap[room] = [];
+      participantMap[room] = tempArr;
+      let disconnectObj = {
+        participantMap,
+        id: socket.id,
+        name
+      };
 
-    // Broadcast the disconnection event to all clients in the room
-    socket.leave(room);
-    io.to(room).emit("disconnectJoinee", disconnectObj);
-
-    // Update the participant list after disconnection
-    participantList = tempArr;
-
-    // Notify clients about the updated participant list after disconnection
-    io.to(room).emit("participantList", participantList);
+      // Broadcast the disconnection event to all clients in the room
+      socket.leave(room);
+      io.to(room).emit("disconnectJoinee", disconnectObj);
+    }
   });
 
   socket.on("send_message", (messageDetails) => {
