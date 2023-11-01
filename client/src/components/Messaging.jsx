@@ -52,7 +52,7 @@ function Messaging({
               onKeyDown={handleEnterRoom}
             />
             <input
-              className="p-2 outline-none w-24 mx-4"
+              className="p-2 outline-none w-24 mx-2"
               placeholder="Room No."
               onChange={(event) => {
                 setRoom(event.target.value);
@@ -88,7 +88,7 @@ function Messaging({
           </button>
         </div>
         <div
-          className={`w-full h-[90vh] bg-purple-200 border-8 border-white flex flex-col sm:flex-row justify-center ${
+          className={`w-full h-[90vh] bg-purple-50 border-8 border-white flex flex-col sm:flex-row justify-center ${
             joined ? "hidden" : "block"
           } items-center pt-10 sm:pt-0 text-2xl  text-purple-900  font-mono text-center`}
         >
