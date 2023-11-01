@@ -35,12 +35,12 @@ function Messaging({
       >
         <div
           id="HeadRoomElement"
-          className={`flex justify-around ${
+          className={`flex justify-start ${
             joined ? "hidden" : "block"
-          } w-full gap-0 items-center h-[10vh] bg-purple-900`}
+          } w-full gap-0 items-center h-[15vh] bg-purple-900 px-2`}
         >
           {" "}
-          <p className="font-bold text-white text-xl">pH</p>
+          <p className="font-bold text-white text-xl mr-10 md:mr-96">pH</p>
           <div className="">
             {" "}
             <input
@@ -88,18 +88,19 @@ function Messaging({
           </button>
         </div>
         <div
-          className={`w-full h-full bg-purple-200 border-8 border-white flex justify-center ${
+          className={`w-full h-[90vh] bg-purple-200 border-8 border-white flex flex-col sm:flex-row justify-center ${
             joined ? "hidden" : "block"
-          } items-center px-12 text-2xl sm:px-0 text-purple-900  font-mono text-center`}
+          } items-center pt-10 sm:pt-0 text-2xl  text-purple-900  font-mono text-center`}
         >
-          <div className="w-1/2 text-4xl space-y-10 px-4">
+          <div className="sm:w-1/2 text-4xl sm:px-4">
             <div>
-              Welcome to PictionaryHangout ! <br />
+              Welcome to <strong>P</strong>ictionary<strong>H</strong>angout{" "}
+              <br />
               {/* <p className="text-sm">
                 Join a room to unlock a world full of fun..
               </p> */}
             </div>
-            <p className="text-sm">
+            <p className="text-sm mt-10">
               {" "}
               This is whimsical wonderland where art meets chatter and video
               calls get a twist! Ever wanted to chat, scribble, and connect with
@@ -109,8 +110,12 @@ function Messaging({
               make your imagination smile. Buckle up and let's get scribbling!
             </p>
           </div>
-          <div className="w-1/2 h-full ">
-            <img src={heroImg} alt="someText" className="mx-auto" />
+          <div className="sm:w-1/2 h-full ">
+            <img
+              src={heroImg}
+              alt="someText"
+              className="mx-auto h-96 sm:h-5/6 sm:mt-10 hover:scale-125 transition-transform 0.2s"
+            />
           </div>
         </div>
         <div
