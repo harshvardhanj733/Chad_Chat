@@ -43,7 +43,7 @@ io.on("connection", (socket) => {
     const name = socket.name;
     let tempArr = participantMap[room];
     participantMap[room] = [];
-    for (let i = 0; i < tempArr.length; i++) {
+    for (let i = 0; tempArr && i < tempArr.length; i++) {
       if (tempArr[i].id !== socket.id) {
         participantMap[room].push(tempArr[i]);
       }
