@@ -36,7 +36,19 @@ io.on("connection", (socket) => {
       id: socket.id,
     });
     io.to(room).emit("participantMap", participantMap);
+    const peerMap = participantMap[room].filter((participant) => participant.id !== socket.id);
+    socket.emit('peerMap', peerMap);
   });
+ 
+  socket.on('sending_signal', payload => {
+    console.log("Jisne signal bheja: "+payload.callerID+"\nKisko bhejna hai: "+payload.userToSignal)
+    io.to(payload.userToSignal).emit('peer_joined', { signal: payload.signal, callerID: payload.callerID });
+  })
+
+  socket.on('returning_signal', payload => {
+    console.log("Jisne Return Kiya: "+payload.id+"\nJisne Accept Kiya: "+payload.callerID)
+    io.to(payload.callerID).emit('receiving_returned_signal', { signal: payload.signal, id: payload.id });
+  })
 
   socket.on("wannaDisconnect", () => {
     const room = socket.room;

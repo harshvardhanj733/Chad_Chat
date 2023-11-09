@@ -5,6 +5,8 @@ import Messaging from "./components/Messaging";
 import Canvas from "./components/Canvas";
 import Board from "./components/Board";
 import VideoApp from "./agora/VideoApp";
+import Peer from 'simple-peer';
+import Video from "./components/Video"
 
 const socket = io.connect("http://localhost:3001");
 
@@ -23,12 +25,23 @@ function App() {
 
   // Messenger State
   const [myId, setMyId] = useState("");
+  const myRef = useRef();
 
+  //Peers State
+  const [peers, setPeers] = useState([])
+
+  //Ref Variables
+  const userVideo = useRef();
+  const peersRef = useRef([]);
   const middleMessageContainerRef = useRef();
 
   const joinRoom = () => {
-    if (room !== "" && name != "") {
+    console.log(myId);
+    if (room !== "" && name !== "") {
       setJoined(true);
+      navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(stream => {
+        userVideo.current.srcObject = stream;
+      })
       socket.emit("join_room", { room, name });
       alert(
         `Your Name is: ${name} ~ ${myId.substring(
@@ -36,6 +49,23 @@ function App() {
           3
         )} and You have joined room ${room}`
       );
+
+      socket.on('peerMap', (peerMap) => {
+        const peers = [];
+        console.log("Peer Map obtained is: "+peerMap);
+        peerMap.forEach(peerInRoom => {
+          console.log("My id while creating a connection : " + myId);
+          const peer = createPeer(peerInRoom.id, myId, userVideo.current.srcObject);
+          peersRef.current.push({
+            peerID: peerInRoom.id,
+            peer,
+          })
+          peers.push(peer);
+        })
+        setPeers(peers);
+      })
+
+      
     }
   };
 
@@ -98,7 +128,9 @@ function App() {
   useEffect(() => {
     socket.on("getId", (id) => {
       setMyId(id);
+      myRef.current = id;
     });
+    console.log(myId)
   }, []);
 
   useEffect(() => {
@@ -123,13 +155,24 @@ function App() {
 
     socket.on("disconnectJoinee", (disconnectObj) => {
       alert(
-        `User Disconnected: ${
-          disconnectObj.name
+        `User Disconnected: ${disconnectObj.name
         } ~ ${disconnectObj.id.substring(0, 3)}`
       );
       setPartiMap(disconnectObj.participantMap);
     });
+
+    socket.on("peer_joined", payload => {
+      console.log("My Id for add peer: "+myId);
+      const peer = addPeer(payload.signal, payload.callerID, userVideo.current.srcObject, myRef.current);
+      peersRef.current.push({
+          peerID: payload.callerID,
+          peer,
+      })
+
+      setPeers(users => [...users, peer]);
+  });
   }, [socket]);
+
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
@@ -151,6 +194,61 @@ function App() {
       joinRoom(e);
     }
   };
+
+  function createPeer(userToSignal, callerID, stream) {
+    // console.log("Called Id is : "+ callerID);
+    const peer = new Peer({
+      initiator: true,
+      trickle: false,
+      stream,
+      config: {
+        iceServers: [
+          {
+            urls: "stun:global.stun.twilio.com:3478",
+          },
+        ],
+      },
+    });
+
+    peer.on("signal", signal => {
+      socket.emit("sending_signal", { userToSignal, callerID, signal })
+    })
+
+    socket.on("receiving_returned_signal", payload => {
+      console.log("Peers Ref is: "+peersRef.current);
+      console.log(payload);
+      const item = peersRef.current.find(p => p.peerID === payload.id);
+      console.log(item);
+      if(item.peer){
+        item.peer.signal(payload.signal);
+      }
+  });
+
+    return peer;
+  }
+
+  function addPeer(incomingSignal, callerID, stream, id) {
+    const peer = new Peer({
+      initiator: false,
+      trickle: false,
+      stream,
+      config: {
+        iceServers: [
+          {
+            urls: "stun:global.stun.twilio.com:3478",
+          },
+        ],
+      },
+    })
+
+    peer.on("signal", signal => {
+      socket.emit("returning_signal", { signal, callerID, id })
+    })
+
+    peer.signal(incomingSignal);
+
+    return peer;
+  }
 
   return (
     <div className="flex w-screen flex-col md:flex-row">
@@ -177,7 +275,15 @@ function App() {
           <Canvas />
         </div>
         <div className={`h-1/2 bg-gradient-to-r from-purple-400 to-purple-900`}>
-          <VideoApp />
+           {/* <VideoApp />  */}
+          <div style={{padding: "20px", display: "flex", height: "50vh", width: "66%", margin: "auto", flexWrap: "wrap"}}>
+            <video style={{height: "40%", width: "50%"}} muted ref={userVideo} autoPlay playsInline />
+            {peers.map((peer, index) => {
+                return (
+                    <Video key={index} peer={peer} />
+                );
+            })}
+          </div>
         </div>
       </div>
     </div>

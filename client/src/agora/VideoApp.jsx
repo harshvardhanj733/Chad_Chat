@@ -1,7 +1,7 @@
 import { useState } from "react";
 import VideoCall from "./VideoCall";
 
-function VideoApp() {
+function VideoApp({room}) {
   const [inCall, setInCall] = useState(false);
 
   return (
