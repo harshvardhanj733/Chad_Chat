@@ -10,7 +10,9 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.11.0",
+    "react-loader-spinner": "^5.4.5",
     "react-scripts": "^5.0.1",
+    "simple-peer": "^9.11.1",
     "socket.io-client": "^4.4.1",
     "web-vitals": "^2.1.0"
   },
@@ -21,6 +23,10 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true
+    },
     "extends": [
       "react-app",
       "react-app/jest"

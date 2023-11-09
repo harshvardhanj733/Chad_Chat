@@ -4,9 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import Messaging from "./components/Messaging";
 import Canvas from "./components/Canvas";
 import Board from "./components/Board";
-import VideoApp from "./agora/VideoApp";
-import Peer from 'simple-peer';
-import Video from "./components/Video"
+// import VideoApp from "./agora/VideoApp";
+import Peer from "simple-peer";
+import Video from "./components/Video";
 
 const socket = io.connect("http://localhost:3001");
 
@@ -28,7 +28,7 @@ function App() {
   const myRef = useRef();
 
   //Peers State
-  const [peers, setPeers] = useState([])
+  const [peers, setPeers] = useState([]);
 
   //Ref Variables
   const userVideo = useRef();
@@ -39,9 +39,11 @@ function App() {
     console.log(myId);
     if (room !== "" && name !== "") {
       setJoined(true);
-      navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(stream => {
-        userVideo.current.srcObject = stream;
-      })
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
+        .then((stream) => {
+          userVideo.current.srcObject = stream;
+        });
       socket.emit("join_room", { room, name });
       alert(
         `Your Name is: ${name} ~ ${myId.substring(
@@ -50,22 +52,24 @@ function App() {
         )} and You have joined room ${room}`
       );
 
-      socket.on('peerMap', (peerMap) => {
+      socket.on("peerMap", (peerMap) => {
         const peers = [];
-        console.log("Peer Map obtained is: "+peerMap);
-        peerMap.forEach(peerInRoom => {
+        console.log("Peer Map obtained is: " + peerMap);
+        peerMap.forEach((peerInRoom) => {
           console.log("My id while creating a connection : " + myId);
-          const peer = createPeer(peerInRoom.id, myId, userVideo.current.srcObject);
+          const peer = createPeer(
+            peerInRoom.id,
+            myId,
+            userVideo.current.srcObject
+          );
           peersRef.current.push({
             peerID: peerInRoom.id,
             peer,
-          })
+          });
           peers.push(peer);
-        })
+        });
         setPeers(peers);
-      })
-
-      
+      });
     }
   };
 
@@ -130,7 +134,7 @@ function App() {
       setMyId(id);
       myRef.current = id;
     });
-    console.log(myId)
+    console.log(myId);
   }, []);
 
   useEffect(() => {
@@ -155,22 +159,28 @@ function App() {
 
     socket.on("disconnectJoinee", (disconnectObj) => {
       alert(
-        `User Disconnected: ${disconnectObj.name
+        `User Disconnected: ${
+          disconnectObj.name
         } ~ ${disconnectObj.id.substring(0, 3)}`
       );
       setPartiMap(disconnectObj.participantMap);
     });
 
-    socket.on("peer_joined", payload => {
-      console.log("My Id for add peer: "+myId);
-      const peer = addPeer(payload.signal, payload.callerID, userVideo.current.srcObject, myRef.current);
+    socket.on("peer_joined", (payload) => {
+      console.log("My Id for add peer: " + myId);
+      const peer = addPeer(
+        payload.signal,
+        payload.callerID,
+        userVideo.current.srcObject,
+        myRef.current
+      );
       peersRef.current.push({
-          peerID: payload.callerID,
-          peer,
-      })
+        peerID: payload.callerID,
+        peer,
+      });
 
-      setPeers(users => [...users, peer]);
-  });
+      setPeers((users) => [...users, peer]);
+    });
   }, [socket]);
 
   useEffect(() => {
@@ -210,19 +220,19 @@ function App() {
       },
     });
 
-    peer.on("signal", signal => {
-      socket.emit("sending_signal", { userToSignal, callerID, signal })
-    })
+    peer.on("signal", (signal) => {
+      socket.emit("sending_signal", { userToSignal, callerID, signal });
+    });
 
-    socket.on("receiving_returned_signal", payload => {
-      console.log("Peers Ref is: "+peersRef.current);
+    socket.on("receiving_returned_signal", (payload) => {
+      console.log("Peers Ref is: " + peersRef.current);
       console.log(payload);
-      const item = peersRef.current.find(p => p.peerID === payload.id);
+      const item = peersRef.current.find((p) => p.peerID === payload.id);
       console.log(item);
-      if(item.peer){
+      if (item.peer) {
         item.peer.signal(payload.signal);
       }
-  });
+    });
 
     return peer;
   }
@@ -239,11 +249,11 @@ function App() {
           },
         ],
       },
-    })
+    });
 
-    peer.on("signal", signal => {
-      socket.emit("returning_signal", { signal, callerID, id })
-    })
+    peer.on("signal", (signal) => {
+      socket.emit("returning_signal", { signal, callerID, id });
+    });
 
     peer.signal(incomingSignal);
 
@@ -275,13 +285,26 @@ function App() {
           <Canvas />
         </div>
         <div className={`h-1/2 bg-gradient-to-r from-purple-400 to-purple-900`}>
-           {/* <VideoApp />  */}
-          <div style={{padding: "20px", display: "flex", height: "50vh", width: "66%", margin: "auto", flexWrap: "wrap"}}>
-            <video style={{height: "40%", width: "50%"}} muted ref={userVideo} autoPlay playsInline />
+          {/* <VideoApp /> */}
+          <div
+            style={{
+              padding: "20px",
+              display: "flex",
+              height: "50vh",
+              width: "66%",
+              margin: "auto",
+              flexWrap: "wrap",
+            }}
+          >
+            <video
+              style={{ height: "40%", width: "50%" }}
+              muted
+              ref={userVideo}
+              autoPlay
+              playsInline
+            />
             {peers.map((peer, index) => {
-                return (
-                    <Video key={index} peer={peer} />
-                );
+              return <Video key={index} peer={peer} />;
             })}
           </div>
         </div>
