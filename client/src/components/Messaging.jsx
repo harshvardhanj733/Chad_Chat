@@ -5,6 +5,7 @@ import {
   FaWindowClose,
 } from "react-icons/fa";
 import heroImg from "../hero-imgg.png";
+// import { motion } from "framer-motion";
 function Messaging({
   partiMap,
   name,
@@ -20,9 +21,7 @@ function Messaging({
   setRoom,
   setMessage,
   middleMessageContainerRef,
-}) 
-{
-
+}) {
   return (
     <>
       <div
@@ -103,6 +102,8 @@ function Messaging({
           <div className="sm:w-1/2 h-full ">
             <img
               src={heroImg}
+              initial={{ y: -10 }}
+              animate={{ y: 10 }}
               alt="someText"
               className="mx-auto h-96 sm:h-5/6 sm:mt-10 hover:scale-125 transition-transform 0.2s"
             />
@@ -113,9 +114,10 @@ function Messaging({
             !joined ? "hidden" : "block"
           } bg-purple-300 h-[8vh] text-purple-950 pt-2 flex`}
         >
-          {partiMap[room] && partiMap[room].map((participant) => {
-            return <p>{participant.name},&nbsp;</p>;
-          })}
+          {partiMap[room] &&
+            partiMap[room].map((participant) => {
+              return <p>{participant.name},&nbsp;</p>;
+            })}
         </div>
 
         <div

@@ -36,13 +36,14 @@ function App() {
   const middleMessageContainerRef = useRef();
 
   const joinRoom = () => {
-    console.log(myId);
+    // console.log(myId);
     if (room !== "" && name !== "") {
       setJoined(true);
       navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
         .then((stream) => {
           userVideo.current.srcObject = stream;
+          console.log(userVideo.current.srcObject);
         });
       socket.emit("join_room", { room, name });
       alert(
@@ -54,7 +55,7 @@ function App() {
 
       socket.on("peerMap", (peerMap) => {
         const peers = [];
-        console.log("Peer Map obtained is: " + peerMap);
+        // console.log("Peer Map obtained is: " + peerMap);
         peerMap.forEach((peerInRoom) => {
           console.log("My id while creating a connection : " + myId);
           const peer = createPeer(
@@ -74,7 +75,7 @@ function App() {
   };
 
   const handleDeletion = () => {
-    console.log("Delete Button Clicked");
+    // console.log("Delete Button Clicked");
     socket.emit("wannaDisconnect");
     window.location.reload();
   };
@@ -92,7 +93,7 @@ function App() {
 
     const formattedTime = `${formattedHours}:${formattedMinutes}`;
 
-    console.log(formattedTime);
+    // console.log(formattedTime);
 
     let messageDeet = {
       message,
@@ -134,7 +135,7 @@ function App() {
       setMyId(id);
       myRef.current = id;
     });
-    console.log(myId);
+    // console.log(myId);
   }, []);
 
   useEffect(() => {
@@ -167,7 +168,7 @@ function App() {
     });
 
     socket.on("peer_joined", (payload) => {
-      console.log("My Id for add peer: " + myId);
+      // console.log("My Id for add peer: " + myId);
       const peer = addPeer(
         payload.signal,
         payload.callerID,
@@ -225,15 +226,14 @@ function App() {
     });
 
     socket.on("receiving_returned_signal", (payload) => {
-      console.log("Peers Ref is: " + peersRef.current);
-      console.log(payload);
+      // console.log("Peers Ref is: " + peersRef.current);
+      // console.log(payload);
       const item = peersRef.current.find((p) => p.peerID === payload.id);
-      console.log(item);
+      // console.log(item);
       if (item.peer) {
         item.peer.signal(payload.signal);
       }
     });
-
     return peer;
   }
 
