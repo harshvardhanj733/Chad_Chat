@@ -5,20 +5,15 @@ export default function Video(props) {
 
   useEffect(() => {
     if (props.peer) {
-      console.log(props.peer.readable);
-      console.log(props.peer);
-
       props.peer.on("stream", (stream) => {
         videoRef.current.srcObject = stream;
-        console.log(videoRef.current.srcObject);
       });
-      console.log(videoRef.current);
     }
-  }, []);
+  }, [props.peer]);
 
   return (
     <video
-      className="border-4 border-white h-fit w-fit"
+      className="border-4 border-white h-full w-full"
       playsInline
       autoPlay
       ref={videoRef}

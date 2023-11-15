@@ -182,7 +182,7 @@ function App() {
 
       setPeers((users) => [...users, peer]);
     });
-  }, [socket]);
+  }, [userVideo]);
 
   useEffect(() => {
     scrollToBottom();
