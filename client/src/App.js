@@ -303,8 +303,8 @@ function App() {
               autoPlay
               playsInline
             />
-            {peers.map((peer, index) => {
-              return <Video key={index} peer={peer} />;
+            {peersRef.current.map((peer, index) => {
+              return <Video key={index} peer={peer.peer} />;
             })}
           </div>
         </div>

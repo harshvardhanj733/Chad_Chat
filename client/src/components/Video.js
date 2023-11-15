@@ -9,10 +9,10 @@ export default function Video(props) {
       console.log(props.peer);
 
       props.peer.on("stream", (stream) => {
-        console.log(stream);
         videoRef.current.srcObject = stream;
+        console.log(videoRef.current.srcObject);
       });
-      console.log(videoRef.current.srcObject);
+      console.log(videoRef.current);
     }
   }, []);
 
