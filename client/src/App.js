@@ -31,7 +31,7 @@ function App() {
   const [peers, setPeers] = useState([]);
 
   //Ref Variables
-  const userVideo = useRef();
+  const userVideo = useRef({ srcVideo: null });
   const peersRef = useRef([]);
   const middleMessageContainerRef = useRef();
 
@@ -167,8 +167,25 @@ function App() {
       setPartiMap(disconnectObj.participantMap);
     });
 
+    // socket.on("peer_joined", (payload) => {
+    //   // console.log("My Id for add peer: " + myId);
+    //   const peer = addPeer(
+    //     payload.signal,
+    //     payload.callerID,
+    //     userVideo.current.srcObject,
+    //     myRef.current
+    //   );
+    //   peersRef.current.push({
+    //     peerID: payload.callerID,
+    //     peer,
+    //   });
+
+    //   setPeers((users) => [...users, peer]);
+    // });
+  }, [userVideo]);
+
+  useEffect(() => {
     socket.on("peer_joined", (payload) => {
-      // console.log("My Id for add peer: " + myId);
       const peer = addPeer(
         payload.signal,
         payload.callerID,
@@ -179,7 +196,6 @@ function App() {
         peerID: payload.callerID,
         peer,
       });
-
       setPeers((users) => [...users, peer]);
     });
   }, [userVideo]);
