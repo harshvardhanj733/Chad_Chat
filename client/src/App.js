@@ -1,16 +1,79 @@
 import "./App.css";
 import io from "socket.io-client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Messaging from "./components/Messaging";
 import Canvas from "./components/Canvas";
 import Board from "./components/Board";
 // import VideoApp from "./agora/VideoApp";
 import Peer from "simple-peer";
 import Video from "./components/Video";
-
+import Particles from "react-tsparticles";
+import { loadSlim } from "tsparticles-slim";
+// const options = {
+//   particles: {
+//     number: {
+//       value: 100,
+//       density: {
+//         enable: true,
+//         area: 800,
+//       },
+//     },
+//     color: {
+//       value: "#2d1234",
+//     },
+//     shape: {
+//       type: "circle",
+//     },
+//     size: {
+//       value: 3,
+//       random: {
+//         enable: true,
+//       },
+//     },
+//     move: {
+//       speed: 1,
+//       outMode: "bounce",
+//     },
+//     links: {
+//       color: "#2d1234",
+//       distance: 100,
+//       enable: true,
+//       opacity: 0.5,
+//     },
+//   },
+//   interactivity: {
+//     events: {
+//       onHover: {
+//         enable: true,
+//         mode: "bubble",
+//       },
+//       onClick: {
+//         enable: true,
+//         mode: "push",
+//       },
+//       resize: true,
+//     },
+//   },
+//   retina: {
+//     detect: true,
+//     pixelDensity: 2,
+//   },
+// };
 const socket = io.connect("http://localhost:3001");
 
 function App() {
+  const particlesInit = useCallback(async (engine) => {
+    console.log(engine);
+    // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
+    // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
+    // starting from v2 you can add only the features you need reducing the bundle size
+    //await loadFull(engine);
+    await loadSlim(engine);
+  }, []);
+
+  const particlesLoaded = useCallback(async (container) => {
+    await console.log(container);
+  }, []);
   //All Users State In a Room
   const [partiMap, setPartiMap] = useState({});
 
@@ -277,55 +340,138 @@ function App() {
   }
 
   return (
-    <div className="flex w-screen flex-col md:flex-row">
-      <Messaging
-        partiMap={partiMap}
-        name={name}
-        room={room}
-        messages={messages}
-        joined={joined}
-        joinRoom={joinRoom}
-        handleDeletion={handleDeletion}
-        sendMessage={sendMessage}
-        handleEnter={handleEnter}
-        handleEnterRoom={handleEnterRoom}
-        setName={setName}
-        setRoom={setRoom}
-        setMessage={setMessage}
-        middleMessageContainerRef={middleMessageContainerRef}
-      />{" "}
-      <div
-        className={`h-screen ${!joined ? "hidden" : "block"} w-full md:w-2/3 `}
-      >
-        <div className="h-1/2 w-full ">
-          <Canvas />
-        </div>
-        <div className={`h-1/2 bg-gradient-to-r from-purple-400 to-purple-900`}>
-          {/* <VideoApp /> */}
+    <>
+      <div className={`${joined ? "hidden" : "block"}`}>
+        {" "}
+        <Particles
+          id="tsparticles"
+          init={particlesInit}
+          loaded={particlesLoaded}
+          options={{
+            // background: {
+            //   color: {
+            //     value: "rgb(59 7 100)",
+            //   },
+            // },
+            fpsLimit: 120,
+            interactivity: {
+              events: {
+                onClick: {
+                  enable: true,
+                  mode: "push",
+                },
+                onHover: {
+                  enable: true,
+                  mode: "repulse",
+                },
+                resize: true,
+              },
+              modes: {
+                push: {
+                  quantity: 4,
+                },
+                repulse: {
+                  distance: 200,
+                  duration: 1,
+                },
+              },
+            },
+            particles: {
+              color: {
+                value: "#770099",
+              },
+              links: {
+                color: "#770099",
+                distance: 150,
+                enable: true,
+                opacity: 0.5,
+                width: 1,
+              },
+              move: {
+                direction: "none",
+                enable: true,
+                outModes: {
+                  default: "bounce",
+                },
+                random: false,
+                speed: 3,
+                straight: false,
+              },
+              number: {
+                density: {
+                  enable: true,
+                  area: 800,
+                },
+                value: 80,
+              },
+              opacity: {
+                value: 0.5,
+              },
+              shape: {
+                type: "circle",
+              },
+              size: {
+                value: { min: 1, max: 5 },
+              },
+            },
+            detectRetina: true,
+          }}
+        />
+      </div>
+
+      <div className="flex w-screen flex-col md:flex-row">
+        <Messaging
+          partiMap={partiMap}
+          name={name}
+          room={room}
+          messages={messages}
+          joined={joined}
+          joinRoom={joinRoom}
+          handleDeletion={handleDeletion}
+          sendMessage={sendMessage}
+          handleEnter={handleEnter}
+          handleEnterRoom={handleEnterRoom}
+          setName={setName}
+          setRoom={setRoom}
+          setMessage={setMessage}
+          middleMessageContainerRef={middleMessageContainerRef}
+        />{" "}
+        <div
+          className={`h-screen ${
+            !joined ? "hidden" : "block"
+          } w-full md:w-2/3 `}
+        >
+          <div className="h-1/2 w-full ">
+            <Canvas />
+          </div>
           <div
-            style={{
-              padding: "20px",
-              display: "flex",
-              height: "50vh",
-              width: "66%",
-              margin: "auto",
-              flexWrap: "wrap",
-            }}
+            className={`h-1/2 bg-gradient-to-r from-purple-400 to-purple-900`}
           >
-            <video
-              style={{ height: "40%", width: "50%" }}
-              muted
-              ref={userVideo}
-              autoPlay
-              playsInline
-            />
-            {peersRef.current.map((peer, index) => {
-              return <Video key={index} peer={peer.peer} />;
-            })}
+            <div
+              style={{
+                padding: "20px",
+                display: "flex",
+                height: "50vh",
+                width: "66%",
+                margin: "auto",
+                flexWrap: "wrap",
+              }}
+            >
+              <video
+                style={{ height: "40%", width: "50%" }}
+                muted
+                ref={userVideo}
+                autoPlay
+                playsInline
+              />
+              {peersRef.current.map((peer, index) => {
+                return <Video key={index} peer={peer.peer} />;
+              })}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -5,7 +5,113 @@ import {
   FaWindowClose,
 } from "react-icons/fa";
 import heroImg from "../hero-imgg.png";
-// import { motion } from "framer-motion";
+import MovingComponent from "react-moving-text";
+import MovingText from "react-moving-text";
+
+// const options = {
+//   particles: {
+//     number: {
+//       value: 100,
+//       density: {
+//         enable: true,
+//         area: 800,
+//       },
+//     },
+//     color: {
+//       // value: ["#007bff", "#28a745", "#ffc107", "#dc3545"],
+//       value: ["#d2c2c2", "#8928a7", "#ffc107", "#9f35dc"],
+//     },
+//     shape: {
+//       type: "circle",
+//     },
+//     size: {
+//       value: 8,
+//       random: {
+//         enable: true,
+//       },
+//     },
+//     links: {
+//       color: "#ffffff",
+//       distance: 150,
+//       opacity: 0.5,
+//     },
+//     move: {
+//       speed: 1,
+//       outMode: "bounce",
+//     },
+//   },
+//   interactivity: {
+//     events: {
+//       onHover: {
+//         enable: true,
+//         mode: "bubble",
+//       },
+//       onClick: {
+//         enable: true,
+//         mode: "push",
+//       },
+//       resize: true,
+//     },
+//   },
+//   retina: {
+//     detect: true,
+//     pixelDensity: 10,
+//   },
+// };
+
+const options = {
+  particles: {
+    number: {
+      value: 100,
+      density: {
+        enable: true,
+        area: 8000,
+      },
+    },
+    color: {
+      value: "#2d1234",
+    },
+    shape: {
+      type: "square",
+    },
+    size: {
+      value: 2,
+      random: {
+        enable: true,
+      },
+    },
+    move: {
+      speed: 1,
+      outMode: "bounce",
+    },
+    links: {
+      color: "#2d1234",
+      distance: 400,
+      enable: true,
+      opacity: 0.25,
+    },
+  },
+  interactivity: {
+    events: {
+      onHover: {
+        enable: true,
+        mode: "bubble",
+      },
+      onClick: {
+        enable: true,
+        mode: "push",
+      },
+      resize: true,
+    },
+  },
+  retina: {
+    detect: true,
+    pixelDensity: 2,
+  },
+};
+
+const Letters = ["i", "c", "t", "i", "o", "n", "a", "r", "y"];
+const Letters2 = ["a", "n", "g", "o", "u", "t"];
 function Messaging({
   partiMap,
   name,
@@ -32,7 +138,7 @@ function Messaging({
         <div
           id="HeadRoomElement"
           className={`flex justify-start ${
-            joined ? "hidden" : "block"
+            joined ? "hidden" : "z-10 block"
           } w-full gap-0 items-center h-[15vh] bg-purple-900 px-2`}
         >
           {" "}
@@ -63,10 +169,14 @@ function Messaging({
               Join
             </button>
           </div>
+          <p className="text-white ml-36 hidden md:block">
+            Click anywhere to see magic !!
+          </p>
         </div>
+
         <div
           id="HeadRoomElement"
-          className={`flex font-semibold justify-around ${
+          className={`flex relative font-semibold justify-around ${
             !joined ? "hidden" : "block"
           } w-full gap-0 items-center h-[10vh] bg-purple-900 text-white`}
         >
@@ -80,16 +190,51 @@ function Messaging({
           </button>
         </div>
         <div
-          className={`w-full h-[90vh] bg-purple-50 border-8 border-white flex flex-col sm:flex-row justify-center ${
+          className={`w-full h-[90vh] bg-purple-50 flex flex-col sm:flex-row justify-center ${
             joined ? "hidden" : "block"
           } items-center pt-10 sm:pt-0 text-2xl  text-purple-900  font-mono text-center`}
         >
           <div className="sm:w-1/2 text-4xl sm:px-4">
-            <div>
-              Welcome to <strong>P</strong>ictionary<strong>H</strong>angout{" "}
+            <div className="z-0 absolute">
+              {/* {!joined && (
+                <Particles id="tsparticles" init={loadFull} options={options} />
+              )} */}
+            </div>
+            <div className="z-20 relative flex justify-center">
+              <strong>P</strong>
+              {Letters.map((letter, index) => (
+                <MovingComponent
+                  type="glowing"
+                  duration="3000ms"
+                  delay={`${index * 50}ms`}
+                  direction="none"
+                  timing="linear"
+                  iteration="infinite"
+                  fillMode="forwards"
+                  style={{ color: "purple" }}
+                >
+                  {letter}
+                </MovingComponent>
+              ))}{" "}
+              &nbsp; <strong>H</strong>{" "}
+              {Letters2.map((letter, index) => (
+                <MovingComponent
+                  type="glowing"
+                  duration="3000ms"
+                  delay={`${index * 50}ms`}
+                  direction="none"
+                  timing="linear"
+                  iteration="infinite"
+                  fillMode="forwards"
+                  style={{ color: "purple" }}
+                >
+                  {letter}
+                </MovingComponent>
+              ))}
               <br />
             </div>
-            <p className="text-sm mt-10">
+
+            <p className="text-sm mt-10 relative z-10">
               {" "}
               This is whimsical wonderland where art meets chatter and video
               calls get a twist! Ever wanted to chat, scribble, and connect with
@@ -105,7 +250,7 @@ function Messaging({
               initial={{ y: -10 }}
               animate={{ y: 10 }}
               alt="someText"
-              className="mx-auto h-96 sm:h-5/6 sm:mt-10 hover:scale-125 transition-transform 0.2s"
+              className="mx-auto h-96 sm:h-5/6 sm:mt-10 scale-90 hover:scale-105 transition-transform 0.2s"
             />
           </div>
         </div>
