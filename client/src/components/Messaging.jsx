@@ -139,14 +139,14 @@ function Messaging({
           id="HeadRoomElement"
           className={`flex justify-start ${
             joined ? "hidden" : "z-10 block"
-          } w-full gap-0 items-center h-[10vh] md:h-[15vh] bg-purple-900 px-2`}
+          } w-full gap-0 items-center h-[10vh] md:h-[15vh] bg-purple-50  px-2 sm:pl-6`}
         >
           {" "}
-          <p className="font-bold text-white text-xl mr-10 md:mr-96">pH</p>
+          <p className="font-bold  text-xl mr-10 md:mr-96">pH</p>
           <div className="py-2">
             {" "}
             <input
-              className="p-2 outline-none w-28 sm:w-64"
+              className="p-2 bg-purple-100 outline-[#770099] text-[#770099] w-28 sm:w-64"
               placeholder="Your name"
               onChange={(event) => {
                 setName(event.target.value);
@@ -154,7 +154,7 @@ function Messaging({
               onKeyDown={handleEnterRoom}
             />
             <input
-              className="p-2 outline-none w-24 mx-2"
+              className="p-2 bg-purple-100 outline-[#770099] text-[#770099] w-24 mx-2"
               placeholder="Room No."
               onChange={(event) => {
                 setRoom(event.target.value);
@@ -162,14 +162,14 @@ function Messaging({
               onKeyDown={handleEnterRoom}
             />
             <button
-              className="bg-purple-100 px-6 rounded-md py-2 hover:bg-green-500"
+              className="border-2 border-[#770099] px-6 rounded-md py-2 hover:bg-green-500"
               onClick={joinRoom}
             >
               {" "}
               Join
             </button>
           </div>
-          <p className="text-white ml-36 hidden md:block">
+          <p className="text-black ml-36 hidden md:block">
             Click anywhere to see magic !!
           </p>
         </div>
@@ -190,11 +190,11 @@ function Messaging({
           </button>
         </div>
         <div
-          className={`w-full h-[92vh] bg-gray-100 flex flex-col sm:flex-row justify-center ${
+          className={`w-full h-[92vh] bg-slate-950 flex flex-col sm:flex-row justify-center ${
             joined ? "hidden" : "block"
-          } items-center pt-10 sm:pt-0 text-2xl  text-purple-950  font-mono text-center`}
+          } items-center pt-10 sm:pt-0 text-2xl  text-purple-50  font-mono text-center border-2 border-[#770099]`}
         >
-          <div className="sm:w-1/2 text-4xl sm:text-6xl sm:px-4">
+          <div className="sm:w-3/4 text-4xl sm:text-6xl sm:px-4">
             <div className="z-0 absolute">
               {/* {!joined && (
                 <Particles id="tsparticles" init={loadFull} options={options} />
@@ -232,7 +232,7 @@ function Messaging({
               <br />
             </div>
 
-            <p className="text-sm mt-10 text-gray-900 relative z-10">
+            <p className="text-sm mt-10 text-purple-50 relative z-10">
               {" "}
               This is whimsical wonderland where art meets chatter and video
               calls get a twist! Ever wanted to chat, scribble, and connect with
@@ -242,7 +242,7 @@ function Messaging({
               make your imagination smile. Buckle up and let's get scribbling!
             </p>
           </div>
-          <div className="sm:w-1/2 h-full ">
+          <div className="sm:w-1/4 h-full bg-[#770099] ">
             <img
               src={heroImg}
               initial={{ y: -10 }}
