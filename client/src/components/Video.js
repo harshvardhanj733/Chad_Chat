@@ -13,7 +13,7 @@ export default function Video(props) {
 
   return (
     <video
-      className="border-4 border-white h-full w-full"
+      className="border-2 border-black h-28 w-44"
       playsInline
       autoPlay
       ref={videoRef}
