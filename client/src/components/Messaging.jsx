@@ -133,17 +133,17 @@ function Messaging({
       <div
         className={`flex flex-col overflow-x-hidden justify-start ${
           !joined ? "lg:w-full" : "lg:w-1/3"
-        }  items-center h-screen`}
+        }  items-center h-full`}
       >
         <div
           id="HeadRoomElement"
           className={`flex justify-start ${
             joined ? "hidden" : "z-10 block"
-          } w-full gap-0 items-center h-[15vh] bg-purple-900 px-2`}
+          } w-full gap-0 items-center h-[10vh] md:h-[15vh] bg-purple-900 px-2`}
         >
           {" "}
           <p className="font-bold text-white text-xl mr-10 md:mr-96">pH</p>
-          <div className="">
+          <div className="py-2">
             {" "}
             <input
               className="p-2 outline-none w-28 sm:w-64"
@@ -190,28 +190,27 @@ function Messaging({
           </button>
         </div>
         <div
-          className={`w-full h-[90vh] bg-purple-50 flex flex-col sm:flex-row justify-center ${
+          className={`w-full h-[92vh] bg-gray-100 flex flex-col sm:flex-row justify-center ${
             joined ? "hidden" : "block"
-          } items-center pt-10 sm:pt-0 text-2xl  text-purple-900  font-mono text-center`}
+          } items-center pt-10 sm:pt-0 text-2xl  text-purple-950  font-mono text-center`}
         >
-          <div className="sm:w-1/2 text-4xl sm:px-4">
+          <div className="sm:w-1/2 text-4xl sm:text-6xl sm:px-4">
             <div className="z-0 absolute">
               {/* {!joined && (
                 <Particles id="tsparticles" init={loadFull} options={options} />
               )} */}
             </div>
-            <div className="z-20 relative flex justify-center">
+            <div className="z-20 relative flex font-mono justify-center">
               <strong>P</strong>
               {Letters.map((letter, index) => (
                 <MovingComponent
-                  type="glowing"
-                  duration="3000ms"
+                  type="rotateCW"
+                  duration="200ms"
                   delay={`${index * 50}ms`}
-                  direction="none"
+                  direction="normal"
                   timing="linear"
-                  iteration="infinite"
-                  fillMode="forwards"
-                  style={{ color: "purple" }}
+                  iteration="2"
+                  fillMode="none"
                 >
                   {letter}
                 </MovingComponent>
@@ -219,14 +218,13 @@ function Messaging({
               &nbsp; <strong>H</strong>{" "}
               {Letters2.map((letter, index) => (
                 <MovingComponent
-                  type="glowing"
-                  duration="3000ms"
+                  type="rotateCW"
+                  duration="200ms"
                   delay={`${index * 50}ms`}
-                  direction="none"
+                  direction="normal"
                   timing="linear"
-                  iteration="infinite"
-                  fillMode="forwards"
-                  style={{ color: "purple" }}
+                  iteration="3"
+                  fillMode="none"
                 >
                   {letter}
                 </MovingComponent>
@@ -234,7 +232,7 @@ function Messaging({
               <br />
             </div>
 
-            <p className="text-sm mt-10 relative z-10">
+            <p className="text-sm mt-10 text-gray-900 relative z-10">
               {" "}
               This is whimsical wonderland where art meets chatter and video
               calls get a twist! Ever wanted to chat, scribble, and connect with
