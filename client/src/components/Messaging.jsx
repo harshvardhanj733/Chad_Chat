@@ -243,13 +243,13 @@ function Messaging({
               make your imagination smile. Buckle up and let's get scribbling!
             </p>
           </div>
-          <div className="sm:w-1/4 h-full bg-[#770099] ">
+          <div className="sm:w-1/4 h-full sm:bg-[#770099] ">
             <img
               src={heroImGG}
               initial={{ y: -10 }}
               animate={{ y: 10 }}
               alt="someText"
-              className="mx-auto h-96 sm:h-5/8 sm:mt-28 scale-100 hover:scale-125 transition-transform animate-bounce 0.2s"
+              className="mx-auto h-96 mt-12 sm:h-5/8 sm:mt-28 scale-100 hover:scale-125 transition-transform sm:animate-bounce 0.2s"
             />
           </div>
         </div>
