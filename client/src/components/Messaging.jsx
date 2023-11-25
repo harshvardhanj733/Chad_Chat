@@ -5,6 +5,7 @@ import {
   FaWindowClose,
 } from "react-icons/fa";
 import heroImg from "../hero-imgg.png";
+import heroImGG from "../home2.png";
 import MovingComponent from "react-moving-text";
 import MovingText from "react-moving-text";
 
@@ -139,14 +140,14 @@ function Messaging({
           id="HeadRoomElement"
           className={`flex justify-start ${
             joined ? "hidden" : "z-10 block"
-          } w-full gap-0 items-center h-[10vh] md:h-[15vh] bg-purple-50  px-2 sm:pl-6`}
+          } w-full gap-0 items-center h-[10vh] md:h-[10vh] bg-purple-50  px-2 sm:pl-6`}
         >
           {" "}
           <p className="font-bold  text-xl mr-10 md:mr-96">pH</p>
-          <div className="py-2">
+          <div className="py-1">
             {" "}
             <input
-              className="p-2 bg-purple-100 outline-[#770099] text-[#770099] w-28 sm:w-64"
+              className="p-2 bg-purple-300 placeholder-[#77009930] outline-[#770099] text-[#770099] border border-[#770099] w-28 sm:w-64"
               placeholder="Your name"
               onChange={(event) => {
                 setName(event.target.value);
@@ -154,7 +155,7 @@ function Messaging({
               onKeyDown={handleEnterRoom}
             />
             <input
-              className="p-2 bg-purple-100 outline-[#770099] text-[#770099] w-24 mx-2"
+              className="p-2 bg-purple-300 placeholder-[#77009930] outline-[#770099] text-[#770099] border border-[#770099] w-24 mx-2"
               placeholder="Room No."
               onChange={(event) => {
                 setRoom(event.target.value);
@@ -162,7 +163,7 @@ function Messaging({
               onKeyDown={handleEnterRoom}
             />
             <button
-              className="border-2 border-[#770099] px-6 rounded-md py-2 hover:bg-green-500"
+              className="border-2 border-[#770099] px-6 rounded-md py-2 hover:bg-[#770099]"
               onClick={joinRoom}
             >
               {" "}
@@ -232,7 +233,7 @@ function Messaging({
               <br />
             </div>
 
-            <p className="text-sm mt-10 text-purple-50 relative z-10">
+            <p className="text-sm mt-10 mx-12 text-purple-50 relative z-10">
               {" "}
               This is whimsical wonderland where art meets chatter and video
               calls get a twist! Ever wanted to chat, scribble, and connect with
@@ -244,11 +245,11 @@ function Messaging({
           </div>
           <div className="sm:w-1/4 h-full bg-[#770099] ">
             <img
-              src={heroImg}
+              src={heroImGG}
               initial={{ y: -10 }}
               animate={{ y: 10 }}
               alt="someText"
-              className="mx-auto h-96 sm:h-5/6 sm:mt-10 scale-90 hover:scale-105 transition-transform 0.2s"
+              className="mx-auto h-96 sm:h-5/8 sm:mt-28 scale-100 hover:scale-125 transition-transform animate-bounce 0.2s"
             />
           </div>
         </div>

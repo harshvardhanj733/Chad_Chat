@@ -6,9 +6,9 @@ const Letters = stringg.split("/");
 const AboutUs = () => {
   return (
     <div className="flex-col sm:flex-row sm:flex ">
-      <section className="bg-[#770099]  sm:w-1/3 justify-center sm:h-screen flex">
+      <section className="bg-[#770099]  sm:w-1/4 justify-center sm:h-screen flex">
         <div className=" h-fit my-auto text-center">
-          <p className="sm:text-5xl text-3xl font-mono p-7 sm:p-24 sm:border-2 border-gray-500 text-gray-50 sm:-rotate-90 text-center">
+          <p className="sm:text-5xl text-3xl font-mono p-7 sm:p-12 sm:border-2 border-gray-500 text-gray-50 sm:-rotate-90 text-center">
             {Letters.map((letter, index) => (
               <MovingComponent
                 type="slideInFromTop"
@@ -25,7 +25,7 @@ const AboutUs = () => {
           </p>
         </div>
       </section>
-      <section class="text-gray-200 sm:w-2/3 sm:h-screen bg-slate-950 body-font">
+      <section class="text-gray-200 sm:w-3/4 sm:h-screen bg-slate-950 body-font">
         <div class="container px-0 py-12">
           <div class="sm:w-[60vw] mx-12 sm:mx-auto text-center">
             <svg
