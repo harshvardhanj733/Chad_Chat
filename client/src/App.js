@@ -10,6 +10,7 @@ import Video from "./components/Video";
 import Particles from "react-tsparticles";
 import { loadSlim } from "tsparticles-slim";
 import AboutUs from "./components/AboutUs";
+import "./VideoBGanimation.css";
 // const options = {
 //   particles: {
 //     number: {
@@ -429,6 +430,7 @@ function App() {
           joined={joined}
           joinRoom={joinRoom}
           handleDeletion={handleDeletion}
+          message={message}
           sendMessage={sendMessage}
           handleEnter={handleEnter}
           handleEnterRoom={handleEnterRoom}
@@ -446,7 +448,12 @@ function App() {
             <Canvas />
           </div>
           <div
-            className={`h-1/2 bg-gradient-to-r from-purple-400 to-purple-900`}
+            className={` w-full
+            h-1/2
+            bg-gradient-to-r
+            from-purple-400
+            to-purple-900
+            background-animate`}
           >
             <div
               style={{

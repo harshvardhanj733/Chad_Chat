@@ -121,6 +121,7 @@ function Messaging({
   joined,
   joinRoom,
   handleDeletion,
+  message,
   sendMessage,
   handleEnter,
   handleEnterRoom,
@@ -147,7 +148,7 @@ function Messaging({
           <div className="py-1">
             {" "}
             <input
-              className="p-2 bg-purple-300 placeholder-[#77009930] outline-[#770099] text-[#770099] border border-[#770099] w-28 sm:w-64"
+              className="p-2 bg-purple-100 placeholder-[#77009930] outline-[#770099] text-black border border-[#770099] w-28 sm:w-64"
               placeholder="Your name"
               onChange={(event) => {
                 setName(event.target.value);
@@ -155,7 +156,7 @@ function Messaging({
               onKeyDown={handleEnterRoom}
             />
             <input
-              className="p-2 bg-purple-300 placeholder-[#77009930] outline-[#770099] text-[#770099] border border-[#770099] w-24 mx-2"
+              className="p-2 bg-purple-100 placeholder-[#77009930] outline-[#770099] text-black border border-[#770099] w-24 mx-2"
               placeholder="Room No."
               onChange={(event) => {
                 setRoom(event.target.value);
@@ -163,7 +164,7 @@ function Messaging({
               onKeyDown={handleEnterRoom}
             />
             <button
-              className="border-2 border-[#770099] px-6 rounded-md py-2 hover:bg-[#770099]"
+              className="border-2 border-[#770099] px-6 rounded-md py-2 hover:bg-[#770099] hover:text-white hover:border-white"
               onClick={joinRoom}
             >
               {" "}
@@ -193,7 +194,7 @@ function Messaging({
         <div
           className={`w-full h-[92vh] bg-slate-950 flex flex-col sm:flex-row justify-center ${
             joined ? "hidden" : "block"
-          } items-center pt-10 sm:pt-0 text-2xl  text-purple-50  font-mono text-center border-2 border-[#770099]`}
+          } items-center pt-10 sm:pt-0 text-2xl  text-purple-50  font-mono text-center border-2 border-b-[#770099] border-l-slate-950`}
         >
           <div className="sm:w-3/4 text-4xl sm:text-6xl sm:px-4">
             <div className="z-0 absolute">
@@ -249,7 +250,7 @@ function Messaging({
               initial={{ y: -10 }}
               animate={{ y: 10 }}
               alt="someText"
-              className="mx-auto h-96 mt-12 sm:h-5/8 sm:mt-28 scale-100 hover:scale-125 transition-transform sm:animate-bounce 0.2s"
+              className="mx-auto h-96 mt-8 sm:h-5/8 sm:mt-28 scale-100 hover:scale-125 transition-transform sm:animate-bounce-slow 2s"
             />
           </div>
         </div>
@@ -307,6 +308,7 @@ function Messaging({
             }  bg-purple-50 py-4 flex justify-between h-[10vh]`}
           >
             <input
+              value={message}
               className="w-full px-3 border-none outline-none bg-purple-50"
               placeholder="Message..."
               onChange={(a) => {
