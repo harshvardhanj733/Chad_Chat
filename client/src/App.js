@@ -9,6 +9,8 @@ import Peer from "simple-peer";
 import Video from "./components/Video";
 import Particles from "react-tsparticles";
 import { loadSlim } from "tsparticles-slim";
+import AboutUs from "./components/AboutUs";
+import "./VideoBGanimation.css";
 // const options = {
 //   particles: {
 //     number: {
@@ -419,7 +421,7 @@ function App() {
         />
       </div>
 
-      <div className="flex w-screen flex-col md:flex-row">
+      <div className="flex w-screen sm:w-[98.5vw] flex-col md:flex-row">
         <Messaging
           partiMap={partiMap}
           name={name}
@@ -428,6 +430,7 @@ function App() {
           joined={joined}
           joinRoom={joinRoom}
           handleDeletion={handleDeletion}
+          message={message}
           sendMessage={sendMessage}
           handleEnter={handleEnter}
           handleEnterRoom={handleEnterRoom}
@@ -445,7 +448,12 @@ function App() {
             <Canvas />
           </div>
           <div
-            className={`h-1/2 bg-gradient-to-r from-purple-400 to-purple-900`}
+            className={` w-full
+            h-1/2
+            bg-gradient-to-r
+            from-purple-400
+            to-purple-900
+            background-animate`}
           >
             <div
               style={{
@@ -470,6 +478,10 @@ function App() {
             </div>
           </div>
         </div>
+      </div>
+      <div className={`${joined ? "hidden" : "block"}`}>
+        {" "}
+        <AboutUs />
       </div>
     </>
   );
